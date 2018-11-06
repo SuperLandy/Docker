@@ -1,0 +1,22 @@
+#启动mongo
+ docker run -ti --privileged=true -d  \
+        --name mongo -v /sys/fs/cgroup:/sys/fs/cgroup:ro \
+        -p 27017:27017 woshitiancai/mongo 
+
+#导入数据库
+ docker exec mongo bash -c 'mongo /opt/mongod.js'
+ docker exec mongo bash -c 'mongo /opt/db_verify_server/db_verify_server/'
+ docker exec mongo bash -c 'mongorestore -uroot -ppass --authenticationDatabase admin -d db_verify_server /opt/db_verify_server/db_verify_server/'
+ docker exec mongo bash -c 'mongorestore -uroot -ppass --authenticationDatabase admin -d db_portal /opt/db_portal/db_portal/'
+ docker exec mongo bash -c 'mongorestore -uroot -ppass --authenticationDatabase admin -d db_order_history /opt/db_order_history/db_order_history/'
+
+
+
+
+#启动java
+ docker run -ti --privileged=true -d  --name java -v /sys/fs/cgroup:/sys/fs/cgroup:ro \
+    -p 6021:6021 woshitiancai/java
+
+#执行java启动脚本
+docker exec java bash -c './mnt/data/ox_total_server/starter/ox_total.sh'
+
