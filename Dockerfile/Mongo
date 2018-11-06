@@ -1,0 +1,30 @@
+
+#cneto7模板
+FROM woshitiancai/temp_centos7
+
+
+#安装相应软件
+RUN  yum -y install epel-release; \
+     yum -y install mongodb mongodb-server; \
+     yum clean all; \
+     systemctl enable mongod;
+
+
+
+#外界端口号
+EXPOSE 27017
+
+
+#复制项目文件到相应目录
+ADD mongod.js  /opt/
+ADD db_order_history /opt/db_order_history
+ADD db_portal /opt/db_portal
+ADD db_verify_server /opt/db_verify_server
+ADD start.sh /opt/
+RUN chmod +x /opt/start.sh
+
+
+#修改mongo配置
+RUN rm -f /etc/mongod.conf
+ADD mongod.conf /etc/
+CMD ["/usr/sbin/init"]
