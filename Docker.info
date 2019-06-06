@@ -1,7 +1,7 @@
 
  #启动java
  docker run -ti --privileged=true -d  --name java -v /sys/fs/cgroup:/sys/fs/cgroup:ro \
-    -p 6021:6021 woshitiancai/java
+    -p 6021:6021 woshitiancai/java:0
  
  
 #执行java启动脚本
